@@ -3,24 +3,28 @@
     <div
       class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
     >
-      <ul
-        class="nav col-9 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 fs-4"
-      >
+      <div class="text-start">
+        <h4>
+          <span class="badge site-green fs-4"
+            ><p class="px-2 text-white">Welcome</p>
+            <%= voter.name %></span
+          >
+        </h4>
+      </div>
+      <ul class="nav col-9 me-lg-auto mb-2 justify-content-end mb-md-0 fs-4">
         <li>
           <a href="#candidates" class="nav-link px-2 text-green">Candidates</a>
         </li>
         <li><a href="#vote" class="nav-link px-2 text-green">Voters</a></li>
         <li><a href="#tally" class="nav-link px-2 text-green">Tally</a></li>
         <li>
-          <a href="/voters/logout" class="nav-link px-2 text-red">Logout</a>
+          <a
+            href="/voters/logout"
+            class="nav-link px-2 ms-4 text-white site-green rounded-4"
+            >Logout</a
+          >
         </li>
       </ul>
-
-      <div class="text-end">
-        <h4>
-          <span class="badge site-green fs-4"><%= voter.regno %></span>
-        </h4>
-      </div>
     </div>
   </div>
 </header>
