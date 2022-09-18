@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 const voterModel = require("../models/voterModel")
 
 
-const checkUser = (req, res, next) => {
+const checkVoter = (req, res, next) => {
     const voterToken = req.cookies.voterLoginJWT;
 
     if (voterToken) {
@@ -26,4 +26,4 @@ const checkUser = (req, res, next) => {
 }
 
 
-module.exports = checkUser;
+module.exports = checkVoter;

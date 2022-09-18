@@ -1,12 +1,12 @@
-require("dotenv").config({ path: "./config.env" });
+require("dotenv").config({ path: "../config.env" });
 const jwt = require("jsonwebtoken")
 
 const candidateAuthJWT = (req, res, next) => {
-    const candidateToken = req.cookie.voterLoginJWT;
+    const candidateToken = req.cookie.candidateLoginJWT;
     //const voterToken = req.headers.authorization.split('')[1]
 
     if (candidateToken) {
-        jwt.verify(candidateToken, JWTOKEN, (err, decodedToken) => {
+        jwt.verify(candidateToken, process.env.JWTOKEN, (err, decodedToken) => {
             if (err) {
                 console.log(err);
                 res.json({
@@ -21,11 +21,12 @@ const candidateAuthJWT = (req, res, next) => {
             }
         })
     } else {
-        res.json({
-            error: "not authenticated, login or register to access"
-        })
+        // res.json({
+        //     error: "not authenticated, login or register to access"
+        // })
         res.redirect('/candidateLog')
     }
 }
+
 
 module.exports = { candidateAuthJWT };
