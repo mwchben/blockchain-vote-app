@@ -3,6 +3,8 @@ const router = express.Router()
 const candidateModel = require("../models/candidateModel")
 const indexMiddleware = require("../middlewares/index")
 const candidateController = require("../controllers/candidateController")
+const candidateAuthJWT = require('../middlewares/authCandidate')
+const checkCandidate = require('../middlewares/checkCandidate')
 
 
 /*
@@ -14,7 +16,8 @@ router.post("/log", indexMiddleware.loginCandidate)
 /*
     get candidate page
 */
-router.get("/dashboard", candidateController.get)
+router.get("/dashboard", candidateAuthJWT, checkCandidate, candidateController.get_dash)
+router.get("/logout", candidateController.get_home)
 
 /*
     get one candidate route { by Moderator}

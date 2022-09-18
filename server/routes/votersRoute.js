@@ -4,7 +4,7 @@ const voterModel = require("../models/voterModel")
 const indexMiddleware = require("../middlewares/index")
 const voterController = require('../controllers/voterController')
 const voterAuthJWT = require('../middlewares/authVoter')
-const checkUser = require('../middlewares/checkVoter')
+const checkVoter = require('../middlewares/checkVoter')
 
 
 /*
@@ -16,7 +16,7 @@ router.post("/log", indexMiddleware.loginVoter)
 /*
     get voter pages
 */
-router.get("/dashboard", voterAuthJWT, checkUser, voterController.get_dash)
+router.get("/dashboard", voterAuthJWT, checkVoter, voterController.get_dash)
 router.get("/logout", voterController.get_home)
 
 /*
