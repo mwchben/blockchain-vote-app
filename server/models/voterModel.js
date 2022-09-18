@@ -34,7 +34,7 @@ voterSchema.pre('save', async function (next) {
     next()
 })
 
-//static method to login user
+//static method to login voter
 voterSchema.statics.login = async function (email, password) {
     const voter = await this.findOne({ email: email })
     if (voter) {
