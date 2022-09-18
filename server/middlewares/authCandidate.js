@@ -2,7 +2,7 @@ require("dotenv").config({ path: "../config.env" });
 const jwt = require("jsonwebtoken")
 
 const candidateAuthJWT = (req, res, next) => {
-    const candidateToken = req.cookie.candidateLoginJWT;
+    const candidateToken = req.cookies.candidateLoginJWT;
     //const voterToken = req.headers.authorization.split('')[1]
 
     if (candidateToken) {
@@ -29,4 +29,4 @@ const candidateAuthJWT = (req, res, next) => {
 }
 
 
-module.exports = { candidateAuthJWT };
+module.exports = candidateAuthJWT;
