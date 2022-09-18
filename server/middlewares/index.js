@@ -157,60 +157,39 @@ CANDIDATE
 //middleware to register with req, res..................................................................
 const registerCandidate = (req, res, next) => {
 
-    bcrypt.hash(req.body.password, 5, function (err, hashedPassword) {
-        if (err) {
-            res.json({ error: err })
-        }
-        let candidate = new candidateModel({
-            name: req.body.name,
-            email: req.body.email,
-            regno: req.body.regno,
-            password: hashedPassword
-        })
-        candidate.save()
-            .then(candidate => {
-                res.json({ success_msg: "You are registered! Login now..." })
-            })
-            .catch(error => {
-                const errors = handleError(error)
-                res.json({ message: errors })
-            })
+    let candidate = new candidateModel({
+        name: req.body.name,
+        email: req.body.email,
+        regno: req.body.regno,
+        password: hashedPassword
     })
+    candidate.save()
+        .then(candidate => {
+            res.json({ success_msg: "You are registered! Login now to your profile" })
+        })
+        .catch(error => {
+            const errors = handleError(error)
+            res.json({ message: errors })
+        })
 }
 //middleware to login with req, res.....................................................................
-const loginCandidate = (req, res, next) => {
+const loginCandidate = async (req, res, next) => {
     let email = req.body.email
     let password = req.body.password
 
-    candidateModel.findOne({ email: email })
-        .then(candidate => {
-            if (candidate) {
-                bcrypt.compare(password, candidate.password, function (err, result) {
-                    if (err) {
-                        res.json({ error: err })
-                    }
-                    if (result) {
-                        //let tokend = jwt.sign({ regno: voter.regno }, process.env.JWTOKEN, { expiresIn: "1hr" })
-                        let token = createToken(candidate.email);
-
-                        res.cookie('candidateLoginJWT', token, { httpOnly: true, maxAge: expiry * 1000 })
-                        res.json({
-                            message: "Candidate successfull login!",
-                            token: token,
-                            candidate: candidate._id
-                        })
-
-
-                        // res.redirect('../../../vote-app/client/src/pages/Candidate')
-                    }
-                    else {
-                        res.json({ message: "Password mismatch!" })
-                    }
-                })
-            } else {
-                res.json({ message: "Candidate does not exist" })
-            }
+    try {
+        const candidate = await candidateModel.login(email, password)
+        let token = createToken(candidate._id);
+        res.cookie('candidateLoginJWT', token, { httpOnly: true, maxAge: expiry * 1000 });
+        res.json({
+            message: "Candidate successfull login!",
+            token: token,
+            voter: candidate._id
         })
+    } catch (error) {
+        const errors = handleError(error)
+        res.json({ errors: errors })
+    }
 }
 //middleware to getID....................................................................................
 async function getCandidate(req, res, next) {
